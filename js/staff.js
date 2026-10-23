@@ -13,6 +13,10 @@
   const error = document.getElementById('loginError');
   const loginPanel = document.getElementById('staffLoginPanel');
   const successPanel = document.getElementById('staffSuccessPanel');
+  const recordsTitle = document.getElementById('staffRecordsTitle');
+  const evidenceImage = document.getElementById('evidenceImage');
+  const evidenceMissing = document.getElementById('evidenceMissing');
+  const evidenceView = document.getElementById('evidenceView');
   const openHelp = document.getElementById('openPasswordHelp');
   const closeHelp = document.getElementById('closePasswordHelp');
   const dialog = document.getElementById('passwordHelpDialog');
@@ -37,8 +41,7 @@
     if (normalizePassword(password.value) === STAFF_PASSWORD) {
       loginPanel.hidden = true;
       successPanel.hidden = false;
-      successPanel.setAttribute('tabindex', '-1');
-      successPanel.focus();
+      recordsTitle.focus();
     } else {
       error.textContent = password.value ? 'パスワードが違います。' : 'パスワードを入力してください。';
       error.hidden = false;
@@ -47,6 +50,13 @@
       password.select();
     }
   });
+  // 記録画像が未配置の場合はファイルの代わりに案内を表示します。
+  evidenceImage.addEventListener('error', () => {
+    evidenceImage.hidden = true;
+    evidenceView.hidden = true;
+    evidenceMissing.hidden = false;
+  });
+
   password.addEventListener('input', () => {
     error.hidden = true;
     password.removeAttribute('aria-invalid');

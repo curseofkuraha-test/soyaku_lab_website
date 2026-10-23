@@ -44,9 +44,30 @@
           </form>
           <a href="#password-help" class="forgot-link" id="openPasswordHelp">パスワードを忘れた方はこちら</a>
         </div>
-        <div class="staff-panel staff-success" id="staffSuccessPanel" hidden role="status">
-          <h2>認証が完了しました。</h2>
-          <p>職員専用ページにログインしました。</p>
+        <div class="staff-records" id="staffSuccessPanel" hidden>
+          <div class="staff-records-heading">
+            <div>
+              <h2 id="staffRecordsTitle" tabindex="-1">研究記録</h2>
+              <p>共有履歴</p>
+            </div>
+            <span class="staff-record-count">1件</span>
+          </div>
+          <article class="staff-record-entry" aria-label="共有された研究記録">
+            <div class="staff-record-summary">
+              <span class="staff-record-symbol" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V3m0 0L7 8m5-5 5 5"/><path d="M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg>
+              </span>
+              <div>
+                <p class="staff-record-activity">研究記録を共有しました。</p>
+                <p class="staff-record-kind">共有ファイル</p>
+              </div>
+            </div>
+            <div class="staff-record-image-wrap" id="evidenceImageWrap">
+              <img id="evidenceImage" src="image/evidence.png" alt="共有された研究記録" loading="eager" decoding="async">
+              <p class="staff-record-missing" id="evidenceMissing" role="status" hidden>研究記録の画像は現在準備中です。</p>
+            </div>
+            <a class="staff-record-view" id="evidenceView" href="image/evidence.png" target="_blank" rel="noopener noreferrer">画像を拡大して見る<span aria-hidden="true">↗</span></a>
+          </article>
         </div>
       </div>
     </section>
