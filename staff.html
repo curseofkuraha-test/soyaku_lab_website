@@ -4,11 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#ffffff">
-  <meta name="description" content="第０創薬化学研究所の職員専用。現在作成中です。">
+  <meta name="description" content="第０創薬化学研究所の職員専用ログインページ。">
   <title>職員専用｜第０創薬化学研究所</title>
   <link rel="icon" type="image/png" href="image/soyaku_logo.png">
   <link rel="stylesheet" href="css/style.css">
   <script src="js/main.js" defer></script>
+  <script src="js/staff.js" defer></script>
 </head>
 <body>
   <div class="utility"><div class="container">ウェブサイト試験公開中</div></div>
@@ -30,11 +31,46 @@
       <nav class="crumbs" aria-label="現在のページ"><a href="index.html">トップ</a><span class="sep">›</span><span aria-current="page">職員専用</span></nav>
       <h1 class="page-title">職員専用</h1>
     </div></section>
-    <div class="container placeholder">
-      <p class="placeholder-title">現在作成中です。</p>
-      <a class="placeholder-return" href="index.html">トップページに戻る →</a>
-    </div>
+    <section class="staff-section" aria-label="職員専用ログイン">
+      <div class="container">
+        <div class="staff-panel" id="staffLoginPanel">
+          <h2>職員専用ログイン</h2>
+          <p class="staff-lead">パスワードを入力してください。</p>
+          <form id="staffLoginForm" novalidate>
+            <label class="staff-field-label" for="staffPassword">パスワード</label>
+            <input class="staff-field" id="staffPassword" name="password" type="password" autocomplete="off" required aria-describedby="loginError">
+            <p class="staff-error" id="loginError" role="alert" hidden></p>
+            <button type="submit" class="staff-submit">ログイン<span aria-hidden="true">→</span></button>
+          </form>
+          <a href="#password-help" class="forgot-link" id="openPasswordHelp">パスワードを忘れた方はこちら</a>
+        </div>
+        <div class="staff-panel staff-success" id="staffSuccessPanel" hidden role="status">
+          <h2>認証が完了しました。</h2>
+          <p>職員専用ページにログインしました。</p>
+        </div>
+      </div>
+    </section>
   </main>
+  <dialog class="security-dialog" id="passwordHelpDialog" aria-labelledby="securityDialogTitle">
+    <div class="security-dialog-header">
+      <h2 id="securityDialogTitle">パスワードを忘れた方へ</h2>
+      <button type="button" id="closePasswordHelp" class="security-close" aria-label="閉じる">×</button>
+    </div>
+    <div class="security-dialog-content">
+      <div id="securityGallery" class="security-gallery" tabindex="0" role="region" aria-roledescription="カルーセル" aria-label="パスワードに関するご案内">
+        <div id="securitySlides" class="security-slides"></div>
+      </div>
+      <p class="security-gallery-message" id="securityGalleryMessage" role="status" hidden></p>
+      <div class="security-controls" id="securityControls" hidden>
+        <button type="button" class="security-arrow" id="securityPrev" aria-label="前の画像へ"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M15 4 7 12l8 8" /></svg></button>
+        <div class="security-progress">
+          <span class="security-count" id="securityCount" aria-live="polite"></span>
+          <div class="security-dots" id="securityDots" aria-label="画像の位置"></div>
+        </div>
+        <button type="button" class="security-arrow" id="securityNext" aria-label="次の画像へ"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 4 17 12l-8 8" /></svg></button>
+      </div>
+    </div>
+  </dialog>
   <footer class="site-footer">
     <div class="container footer-row"><div><div class="footer-name">第０創薬化学研究所</div><p class="footer-note">このサイトは試験公開版です。</p></div><a class="footer-back" href="#top">ページの先頭へ ↑</a></div>
     <div class="footer-bar"><div class="container">© 第０創薬化学研究所</div></div>
