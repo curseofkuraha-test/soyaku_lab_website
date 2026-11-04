@@ -3,6 +3,7 @@
 
   // 正解パスワード。半角・全角および大文字・小文字の違いは区別しません。
   // これは静的HTML上の演出用ログインです。機密情報を保護する仕組みではありません。
+  const STAFF_ID = '1966dotelove';
   const STAFF_PASSWORD = 'archives';
   const normalizePassword = value => value.trim().normalize('NFKC').toLowerCase();
   const MAX_SECURITY_IMAGES = 30;
@@ -40,8 +41,7 @@
   let lastFocused = null;
   let scrollingFrame = 0;
 
-  // 職員IDは入力欄のみ設けます。指定のIDとの照合は行いません。
-  // 謎解き用の正解判定はこれまでどおりパスワードだけで行います。
+  // 職員IDとパスワードの両方が正しい場合のみ、研究記録を表示します。
   function clearLoginError() {
     error.hidden = true;
     staffId.removeAttribute('aria-invalid');
@@ -61,6 +61,10 @@
     clearLoginError();
     if (!staffId.value.trim()) {
       showLoginError('職員IDを入力してください。', staffId);
+      return;
+    }
+    if (staffId.value.trim() !== STAFF_ID) {
+      showLoginError('職員IDが違います。', staffId);
       return;
     }
     if (normalizePassword(password.value) !== STAFF_PASSWORD) {
