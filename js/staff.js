@@ -9,7 +9,11 @@
   const IMAGE_FOLDER = 'image/';
 
   const form = document.getElementById('staffLoginForm');
+  const staffId = document.getElementById('staffId');
   const password = document.getElementById('staffPassword');
+  const togglePassword = document.getElementById('toggleStaffPassword');
+  const eyeOpen = document.getElementById('staffEyeOpen');
+  const eyeClosed = document.getElementById('staffEyeClosed');
   const error = document.getElementById('loginError');
   const loginPanel = document.getElementById('staffLoginPanel');
   const successPanel = document.getElementById('staffSuccessPanel');
@@ -36,20 +40,49 @@
   let lastFocused = null;
   let scrollingFrame = 0;
 
+  // 職員IDは入力欄のみ設けます。指定のIDとの照合は行いません。
+  // 謎解き用の正解判定はこれまでどおりパスワードだけで行います。
+  function clearLoginError() {
+    error.hidden = true;
+    staffId.removeAttribute('aria-invalid');
+    password.removeAttribute('aria-invalid');
+  }
+
+  function showLoginError(messageText, input) {
+    error.textContent = messageText;
+    error.hidden = false;
+    input.setAttribute('aria-invalid', 'true');
+    input.focus();
+    if (input === password && input.value) input.select();
+  }
+
   form.addEventListener('submit', event => {
     event.preventDefault();
-    if (normalizePassword(password.value) === STAFF_PASSWORD) {
-      loginPanel.hidden = true;
-      successPanel.hidden = false;
-      recordsTitle.focus();
-    } else {
-      error.textContent = password.value ? 'パスワードが違います。' : 'パスワードを入力してください。';
-      error.hidden = false;
-      password.setAttribute('aria-invalid', 'true');
-      password.focus();
-      password.select();
+    clearLoginError();
+    if (!staffId.value.trim()) {
+      showLoginError('職員IDを入力してください。', staffId);
+      return;
     }
+    if (normalizePassword(password.value) !== STAFF_PASSWORD) {
+      showLoginError(password.value ? 'パスワードが違います。' : 'パスワードを入力してください。', password);
+      return;
+    }
+    loginPanel.hidden = true;
+    successPanel.hidden = false;
+    recordsTitle.focus();
   });
+
+  // 目のボタンでパスワードを一時的に表示し、再度押すと伏せ字に戻します。
+  togglePassword.addEventListener('click', () => {
+    const visible = password.type === 'password';
+    password.type = visible ? 'text' : 'password';
+    togglePassword.setAttribute('aria-pressed', String(visible));
+    togglePassword.setAttribute('aria-label', visible ? 'パスワードを非表示' : 'パスワードを表示');
+    togglePassword.title = visible ? 'パスワードを非表示' : 'パスワードを表示';
+    eyeOpen.hidden = visible;
+    eyeClosed.hidden = !visible;
+  });
+
   // 記録画像が未配置の場合はファイルの代わりに案内を表示します。
   evidenceImage.addEventListener('error', () => {
     evidenceImage.hidden = true;
@@ -57,10 +90,8 @@
     evidenceMissing.hidden = false;
   });
 
-  password.addEventListener('input', () => {
-    error.hidden = true;
-    password.removeAttribute('aria-invalid');
-  });
+  staffId.addEventListener('input', clearLoginError);
+  password.addEventListener('input', clearLoginError);
 
   // ファイル一覧は静的HTMLから取得できないため、連番を順に読み込み、
   // 最初に存在しない画像が現れたところで自動的に終わります。
